@@ -16,8 +16,8 @@ class Settings(BaseSettings):
         extra="ignore",
     )
 
-    app_name: str
-    app_env: Literal["development", "test", "production"]
+    app_name: str = ""
+    app_env: Literal["development", "test", "production"] = "development"
     mysql_host: str
     mysql_port: int = Field(default=3307, ge=1, le=65535)
     mysql_database: str = Field(min_length=1)
