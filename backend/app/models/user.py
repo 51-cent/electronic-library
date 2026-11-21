@@ -23,7 +23,7 @@ class User(CreatedAtMixin, Base):
     first_name: Mapped[str] = mapped_column(String(100))
     last_name: Mapped[str] = mapped_column(String(100))
     password: Mapped[str] = mapped_column(String(255))
-    email: Mapped[str | None] = mapped_column(String(254))
+    email: Mapped[str] = mapped_column(String(254))
     role: Mapped[Role] = mapped_column(
         Enum(Role, name='user_role', values_callable=lambda values: [v.value for v in values], validate_strings=True),
         default=Role.user, server_default=Role.user.value,
