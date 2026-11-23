@@ -1,3 +1,4 @@
+from app.db.base import Base
 from app.models.associations import book_authors, book_categories
 from app.models.author import Author
 from app.models.auth_session import AuthSession
@@ -8,6 +9,7 @@ from app.models.user import User
 from app.models.user_book import UserBook
 
 __all__ = [
+    'Base',
     'Author',
     'AuthSession',
     'Book',

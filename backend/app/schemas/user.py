@@ -19,7 +19,7 @@ class UserCreate(InputSchema):
 
 
 class UserUpdate(UpdateSchema):
-    non_nullable_fields = ('username', 'first_name', 'last_name')
+    non_nullable_fields = ('username', 'first_name', 'last_name', 'email')
 
     username: Username | None = None
     first_name: Name | None = None
@@ -35,7 +35,7 @@ class UserSummary(ReadSchema):
 
 
 class UserRead(UserSummary):
-    email: Email | None
+    email: Email
     role: Role
     is_active: bool
     created_at: UtcDatetime
