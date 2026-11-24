@@ -42,7 +42,7 @@ ISBN = Annotated[
     StringConstraints(pattern=r'^[0-9]{13}$'),
     AfterValidator(validate_isbn)
 ]
-Title = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=257)]
+Title = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=256)]
 Description = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=10000)]
 CoverUrl = Annotated[str, StringConstraints(strip_whitespace=True, max_length=2048), AfterValidator(validate_cover_url)]
 RelatedIds = Annotated[list[PositiveId], Field(min_length=1), AfterValidator(unique_ids)]

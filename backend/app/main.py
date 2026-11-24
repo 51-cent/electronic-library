@@ -1,10 +1,12 @@
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+from fastapi.responses import JSONResponse
 
 from app.api.router import api_router
 from app.core.config import get_settings
+from app.core.exceptions import ApplicationError
 from app.db.session import get_engine
 
 
@@ -23,3 +25,11 @@ app = FastAPI(
     lifespan=lifespan,
 )
 app.include_router(api_router, prefix="/api/v1")
+
+
+@app.exception_handler(ApplicationError)
+def application_error_handler(_request: Request, error: ApplicationError) -> JSONResponse:
+    return JSONResponse(
+        status_code=error.status_code,
+        content={'detail': {'code': error.code, 'message': error.message}},
+    )
