@@ -1,8 +1,12 @@
 from fastapi import APIRouter
 
+from app.api.routes.authors import router as authors_router
+from app.api.routes.books import router as books_router
 from app.api.routes.health import router as health_router
 from app.api.routes.categories import router as categories_router
 
 api_router = APIRouter()
 api_router.include_router(health_router)
 api_router.include_router(categories_router)
+api_router.include_router(authors_router)
+api_router.include_router(books_router)

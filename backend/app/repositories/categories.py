@@ -27,6 +27,12 @@ class CategoryRepository:
     def get_by_name(self, name: str) -> Category | None:
         return self.db.scalar(select(Category).where(Category.name == name))
 
+    def get_by_ids(self, category_ids: list[int], *, for_share: bool = False) -> list[Category]:
+        query = select(Category).where(Category.id.in_(category_ids)).order_by(Category.id)
+        if for_share:
+            query = query.with_for_update(read=True)
+        return list(self.db.scalars(query).all())
+
     def is_used(self, category_id: int) -> bool:
         return bool(self.db.scalar(select(exists().where(book_categories.c.category_id == category_id))))
 

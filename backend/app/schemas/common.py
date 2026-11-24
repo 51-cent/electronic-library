@@ -1,4 +1,4 @@
-from datetime import UTC
+from datetime import UTC, datetime
 from typing import Annotated, ClassVar, Generic, Self, TypeVar
 
 from pydantic import AfterValidator, AwareDatetime, BaseModel, ConfigDict, Field, StringConstraints, model_validator
@@ -6,7 +6,16 @@ from pydantic import AfterValidator, AwareDatetime, BaseModel, ConfigDict, Field
 PositiveId = Annotated[int, Field(gt=0)]
 Year = Annotated[int, Field(ge=1, le=9999)]
 Name = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=100)]
-UtcDatetime = Annotated[AwareDatetime, AfterValidator(lambda value: value.astimezone(UTC))]
+
+
+def normalize_utc(value: datetime) -> datetime:
+    try:
+        return value.astimezone(UTC)
+    except OverflowError:
+        raise ValueError('Дата после преобразования в UTC выходит за допустимый диапазон.') from None
+
+
+UtcDatetime = Annotated[AwareDatetime, AfterValidator(normalize_utc)]
 
 
 class InputSchema(BaseModel):
