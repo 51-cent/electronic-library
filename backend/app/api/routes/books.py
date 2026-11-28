@@ -49,7 +49,7 @@ def get_book(book_id: BookId, service: BookServiceDep) -> BookDetail:
     status_code=201,
     dependencies=write_access,
     summary='Создать книгу с авторами и категориями',
-    responses={403: {'model': ErrorResponse}, 404: {'model': ErrorResponse}, 409: {'model': ErrorResponse}},
+    responses={401: {'model': ErrorResponse}, 403: {'model': ErrorResponse}, 404: {'model': ErrorResponse}, 409: {'model': ErrorResponse}},
 )
 def create_book(data: BookCreate, service: BookServiceDep) -> BookRead:
     return service.create(data)
@@ -60,7 +60,7 @@ def create_book(data: BookCreate, service: BookServiceDep) -> BookRead:
     response_model=BookRead,
     dependencies=write_access,
     summary='Изменить метаданные и связи книги',
-    responses={403: {'model': ErrorResponse}, 404: {'model': ErrorResponse}, 409: {'model': ErrorResponse}},
+    responses={401: {'model': ErrorResponse}, 403: {'model': ErrorResponse}, 404: {'model': ErrorResponse}, 409: {'model': ErrorResponse}},
 )
 def update_book(book_id: BookId, data: BookUpdate, service: BookServiceDep) -> BookRead:
     return service.update(book_id, data)
@@ -72,7 +72,7 @@ def update_book(book_id: BookId, data: BookUpdate, service: BookServiceDep) -> B
     response_class=Response,
     dependencies=write_access,
     summary='Архивировать книгу',
-    responses={403: {'model': ErrorResponse}, 404: {'model': ErrorResponse}},
+    responses={401: {'model': ErrorResponse}, 403: {'model': ErrorResponse}, 404: {'model': ErrorResponse}},
 )
 def delete_book(book_id: BookId, service: BookServiceDep) -> Response:
     service.delete(book_id)

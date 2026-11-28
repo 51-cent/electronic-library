@@ -40,7 +40,7 @@ def get_author(author_id: AuthorId, service: AuthorServiceDep) -> AuthorRead:
     status_code=201,
     dependencies=write_access,
     summary='Создать автора',
-    responses={403: {'model': ErrorResponse}},
+    responses={401: {'model': ErrorResponse}, 403: {'model': ErrorResponse}},
 )
 def create_author(data: AuthorCreate, service: AuthorServiceDep) -> AuthorRead:
     return service.create(data)
@@ -51,7 +51,7 @@ def create_author(data: AuthorCreate, service: AuthorServiceDep) -> AuthorRead:
     response_model=AuthorRead,
     dependencies=write_access,
     summary='Изменить автора',
-    responses={403: {'model': ErrorResponse}, 404: {'model': ErrorResponse}},
+    responses={401: {'model': ErrorResponse}, 403: {'model': ErrorResponse}, 404: {'model': ErrorResponse}},
 )
 def update_author(author_id: AuthorId, data: AuthorUpdate, service: AuthorServiceDep) -> AuthorRead:
     return service.update(author_id, data)
@@ -63,7 +63,7 @@ def update_author(author_id: AuthorId, data: AuthorUpdate, service: AuthorServic
     response_class=Response,
     dependencies=write_access,
     summary='Удалить неиспользуемого автора',
-    responses={403: {'model': ErrorResponse}, 404: {'model': ErrorResponse}, 409: {'model': ErrorResponse}},
+    responses={401: {'model': ErrorResponse}, 403: {'model': ErrorResponse}, 404: {'model': ErrorResponse}, 409: {'model': ErrorResponse}},
 )
 def delete_author(author_id: AuthorId, service: AuthorServiceDep) -> Response:
     service.delete(author_id)

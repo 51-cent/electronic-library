@@ -42,7 +42,7 @@ def get_category(category_id: CategoryId, service: CategoryServiceDep) -> Catego
     status_code=201,
     dependencies=write_access,
     summary='Создать категорию',
-    responses={403: {'model': ErrorResponse}, 409: {'model': ErrorResponse}},
+    responses={401: {'model': ErrorResponse}, 403: {'model': ErrorResponse}, 409: {'model': ErrorResponse}},
 )
 def create_category(data: CategoryCreate, service: CategoryServiceDep) -> CategoryRead:
     return service.create(data)
@@ -53,7 +53,7 @@ def create_category(data: CategoryCreate, service: CategoryServiceDep) -> Catego
     response_model=CategoryRead,
     dependencies=write_access,
     summary='Изменить категорию',
-    responses={403: {'model': ErrorResponse}, 404: {'model': ErrorResponse}, 409: {'model': ErrorResponse}},
+    responses={401: {'model': ErrorResponse}, 403: {'model': ErrorResponse}, 404: {'model': ErrorResponse}, 409: {'model': ErrorResponse}},
 )
 def update_category(
     category_id: CategoryId, data: CategoryUpdate, service: CategoryServiceDep,
@@ -67,7 +67,7 @@ def update_category(
     response_class=Response,
     dependencies=write_access,
     summary='Удалить неиспользуемую категорию',
-    responses={403: {'model': ErrorResponse}, 404: {'model': ErrorResponse}, 409: {'model': ErrorResponse}},
+    responses={401: {'model': ErrorResponse}, 403: {'model': ErrorResponse}, 404: {'model': ErrorResponse}, 409: {'model': ErrorResponse}},
 )
 def delete_category(category_id: CategoryId, service: CategoryServiceDep) -> Response:
     service.delete(category_id)

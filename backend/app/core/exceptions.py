@@ -13,3 +13,12 @@ class NotFoundError(ApplicationError):
 
 class ConflictError(ApplicationError):
     status_code = 409
+
+
+class AuthenticationError(ApplicationError):
+    status_code = 401
+    headers = {'WWW-Authenticate': 'Bearer'}
+
+
+class ForbiddenError(ApplicationError):
+    status_code = 403

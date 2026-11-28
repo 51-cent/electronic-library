@@ -2,6 +2,7 @@ from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, Request
+from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 
 from app.api.router import api_router
@@ -32,4 +33,11 @@ def application_error_handler(_request: Request, error: ApplicationError) -> JSO
     return JSONResponse(
         status_code=error.status_code,
         content={'detail': {'code': error.code, 'message': error.message}},
+        headers={'Cache-Control': 'no-store', **getattr(error, 'headers', {})},
     )
+
+
+@app.exception_handler(RequestValidationError)
+def request_validation_error_handler(_request: Request, error: RequestValidationError) -> JSONResponse:
+    details = [{key: item[key] for key in ('type', 'loc', 'msg')} for item in error.errors()]
+    return JSONResponse(status_code=422, content={'detail': details}, headers={'Cache-Control': 'no-store'})

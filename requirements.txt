@@ -8,3 +8,4 @@ pymysql[rsa]==1.2.4
 python-dotenv==1.2.4
 python-multipart==0.0.33
 pwdlib[argon2]==0.4.2
+PyJWT==2.15.1
